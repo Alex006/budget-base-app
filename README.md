@@ -12,6 +12,8 @@ docker build -t myfrontend:0.1.0-alpine frontend/
 
 # Run Application
 docker compose up
+docker compose down
+docker compose down -v
 ```
 
 # Creating docker repositories
