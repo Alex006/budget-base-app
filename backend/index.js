@@ -10,6 +10,7 @@ const personInfo = require('./src/routes/person_info');
 const personRoutes = require('./src/routes/person');
 const categoryRoutes = require('./src/routes/category');
 const accountRoutes = require('./src/routes/account'); 
+const transactionRoutes = require('./src/routes/transaction');
 const invalidRoutes = require('./src/routes/404');
 
 app.use(cors({ origin: true, credentials: true }));
@@ -23,6 +24,7 @@ app.use(guard);
 app.use(personInfo);
 app.use(categoryRoutes);
 app.use(accountRoutes); 
+app.use(transactionRoutes);
 app.use(invalidRoutes);
 
 oracle

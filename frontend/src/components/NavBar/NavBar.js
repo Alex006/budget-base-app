@@ -34,6 +34,9 @@ const NavBar = (props) => {
               <Nav.Link as={Link} to="/account">
                 Account
               </Nav.Link>
+              <Nav.Link as={Link} to="/transaction">
+                Transaction
+              </Nav.Link>
               <Nav.Link as={Link} to="/about">
                 About
               </Nav.Link>

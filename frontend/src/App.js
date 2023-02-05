@@ -8,6 +8,7 @@ import Help from './components/Help/Help';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import Account from './components/Account/Account'; 
+import Transaction from './components/Transaction/Transaction';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout component={Dashboard} />} />
           <Route path="/account" element={<Layout component={Account} />} />
+          <Route path="/transaction" element={<Layout component={Transaction} />} />
           <Route path="/about" element={<Layout component={About} />} />
           <Route path="/help" element={<Layout component={Help} />} />
           <Route path="/register" element={<Register />} />
