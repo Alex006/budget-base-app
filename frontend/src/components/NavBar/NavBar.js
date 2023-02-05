@@ -31,6 +31,9 @@ const NavBar = (props) => {
               <Nav.Link as={Link} to="/">
                 Dashboard
               </Nav.Link>
+              <Nav.Link as={Link} to="/account">
+                Account
+              </Nav.Link>
               <Nav.Link as={Link} to="/about">
                 About
               </Nav.Link>

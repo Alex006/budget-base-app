@@ -7,6 +7,7 @@ import About from './components/About/About';
 import Help from './components/Help/Help';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
+import Account from './components/Account/Account'; 
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Container fluid className="ps-0 pe-0">
         <Routes>
           <Route path="/" element={<Layout component={Dashboard} />} />
+          <Route path="/account" element={<Layout component={Account} />} />
           <Route path="/about" element={<Layout component={About} />} />
           <Route path="/help" element={<Layout component={Help} />} />
           <Route path="/register" element={<Register />} />
