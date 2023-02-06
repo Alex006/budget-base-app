@@ -12,10 +12,14 @@ module.exports.create = ({ person, debitAccount, creditAccount, description, acc
 
 module.exports.findById = ({ person, transaction }) => {
   const bindings = { person, transaction };
-  const SQL_SELECT_TRANSACTION = `SELECT 
-                                TXN_ID AS "transaction", 
+  const SQL_SELECT_TRANSACTION = `SELECT                                 
+                                DEBIT_ACCOUNT_ID AS "debitAccount",
+                                CREDIT_ACCOUNT_ID AS "creditAccount",
                                 ACCOUNT_NUMBER AS "name", 
-                                DESCRIPTION AS "description" 
+                                DESCRIPTION AS "description", 
+                                AMOUNT AS "amount",
+                                DEBIT_CURRENCY AS "debitCurrency",
+                                CREDIT_CURRENCY AS "creditCurrency" 
                               FROM TRANSACTIONS WHERE TXN_ID = :transaction AND PERSON = :person`;
   console.log(SQL_SELECT_TRANSACTIONS, bindings);
   return pool(SQL_SELECT_TRANSACTION, bindings);
@@ -24,9 +28,13 @@ module.exports.findById = ({ person, transaction }) => {
 module.exports.fetchAll = ({ person }) => {
   const bindings = { person };
   const SQL_SELECT_TRANSACTIONS = `SELECT 
-                                  TXN_ID AS "transaction", 
-                                  ACCOUNT_NUMBER AS "name", 
-                                  DESCRIPTION AS "description" 
+                                    DEBIT_ACCOUNT_ID AS "debitAccount",
+                                    CREDIT_ACCOUNT_ID AS "creditAccount",
+                                    ACCOUNT_NUMBER AS "name", 
+                                    DESCRIPTION AS "description", 
+                                    AMOUNT AS "amount",
+                                    DEBIT_CURRENCY AS "debitCurrency",
+                                    CREDIT_CURRENCY AS "creditCurrency"  
                                 FROM TRANSACTIONS WHERE PERSON = :person`;
 
   console.log(SQL_SELECT_TRANSACTIONS, bindings);

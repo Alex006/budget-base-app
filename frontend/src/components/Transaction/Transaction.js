@@ -100,8 +100,13 @@ const Transaction = () => {
       <ListGroup.Item key={transaction.transaction} action>
         <Card>
           <Card.Body>
-            <Card.Title>{transaction.name}</Card.Title>
+            <Card.Title>{transaction.debitAccount}</Card.Title>
+            <Card.Text>{transaction.creditAccount}</Card.Text>
             <Card.Text>{transaction.description}</Card.Text>
+            <Card.Text>{transaction.accountNumber}</Card.Text>
+            <Card.Text>{transaction.amount}</Card.Text>
+            <Card.Text>{transaction.debitCurrency}</Card.Text>
+            <Card.Text>{transaction.creditCurrency}</Card.Text>
           </Card.Body>
         </Card>
       </ListGroup.Item>
