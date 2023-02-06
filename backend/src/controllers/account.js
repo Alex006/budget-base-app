@@ -5,7 +5,7 @@ module.exports.createAccount = async (req, res, next) => {
       person: req.person.person,
       name: req.body.name,
       bank_name: req.body.bank_name,
-      account_number: req.body.account_number,
+      account_id: req.body.account_id,
       account_balance: req.body.account_balance,
       currency_id: req.body.currency_id,
     };

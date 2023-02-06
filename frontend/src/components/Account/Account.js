@@ -15,7 +15,7 @@ const Account = () => {
     const [cookies] = useCookies(['auth_token']);
     const accNameRef = useRef();
     const bankName = useRef();
-    const accNumber = useRef();
+    const accID = useRef();
     const accBalance = useRef();
     const currency_id_ref = useRef(); 
     const [disableSubmit, setDisableSubmit] = useState(false);
@@ -56,18 +56,18 @@ const Account = () => {
         e.preventDefault();
         const name = accNameRef.current.value; 
         const bank_name = bankName.current.value; 
-        const account_number = accNumber.current.value; 
+        const account_id = accID.current.value; 
         const account_balance = accBalance.current.value; 
         const currency_id = currency_id_ref.current.value; 
 
         // validate data provided 
-        if (name === '' || bank_name === '' || account_number === '' | account_balance === '' | currency_id === '') return; 
+        if (name === '' || bank_name === '' || account_id === '' || account_balance === '' || currency_id === '') return; 
 
         // disable extra submit 
         setDisableSubmit(true); 
 
         try {
-            await createAccount({ name, bank_name, account_number, account_balance, currency_id});
+            await createAccount({ name, bank_name, account_id, account_balance, currency_id});
             const accounts = await getAccounts(); 
             setUserAccounts(accounts.data);
 
@@ -78,7 +78,7 @@ const Account = () => {
         setDisableSubmit(false); 
         bankName.current.value = ''; 
         accNameRef.current.value = ''; 
-        accNumber.current.value = '';
+        accID.current.value = '';
         accBalance.current.value = ''; 
         currency_id_ref.current.value = ''; 
 
@@ -99,12 +99,12 @@ const Account = () => {
 
     const userAccountsList = userAccounts.map((account) => {
         return (
-            <ListGroup.Item key={account.account} action>
+            <ListGroup.Item key={account.account_id} action>
                 <Card>
                     <Card.Body>
                         <Card.Title>{account.name}</Card.Title>
                         <Card.Text>{account.bank_name}</Card.Text>
-                        <Card.Text>{account.account_number}</Card.Text>
+                        <Card.Text>{account.account_id}</Card.Text>
                         <Card.Text>{account.account_balance}</Card.Text>
                         <Card.Text>{account.currency_id}</Card.Text>
                     </Card.Body>
@@ -143,7 +143,7 @@ const Account = () => {
                         <Row className="mb-3">
                         <Form.Group as={Col} controlId="formGridEmail">
                             <Form.Label>Account number</Form.Label>
-                            <Form.Control placeholder="..." ref={accNumber} />
+                            <Form.Control placeholder="..." ref={accID} />
                         </Form.Group>
                         </Row>
                         <Row className="mb-3">
