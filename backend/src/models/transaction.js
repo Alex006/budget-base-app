@@ -20,7 +20,8 @@ module.exports.findById = ({ person, transaction }) => {
                                 AMOUNT AS "amount",
                                 DEBIT_CURRENCY AS "debitCurrency",
                                 CREDIT_CURRENCY AS "creditCurrency" 
-                              FROM TRANSACTIONS WHERE TXN_ID = :transaction AND PERSON = :person`;
+                              FROM TRANSACTIONS WHERE TXN_ID = :transaction AND PERSON = :person
+                              ORDER BY TXN_ID ASC `;
   console.log(SQL_SELECT_TRANSACTIONS, bindings);
   return pool(SQL_SELECT_TRANSACTION, bindings);
 };
@@ -28,14 +29,35 @@ module.exports.findById = ({ person, transaction }) => {
 module.exports.fetchAll = ({ person }) => {
   const bindings = { person };
   const SQL_SELECT_TRANSACTIONS = `SELECT 
+                                    TXN_ID AS "txnId",
                                     DEBIT_ACCOUNT_ID AS "debitAccount",
                                     CREDIT_ACCOUNT_ID AS "creditAccount",
-                                    ACCOUNT_NUMBER AS "name", 
+                                    ACCOUNT_NUMBER AS "accountNumber", 
                                     DESCRIPTION AS "description", 
                                     AMOUNT AS "amount",
                                     DEBIT_CURRENCY AS "debitCurrency",
                                     CREDIT_CURRENCY AS "creditCurrency"  
-                                FROM TRANSACTIONS WHERE PERSON = :person`;
+                                FROM TRANSACTIONS WHERE PERSON = :person
+                                ORDER BY TXN_ID ASC `;
+
+  console.log(SQL_SELECT_TRANSACTIONS, bindings);
+  return pool(SQL_SELECT_TRANSACTIONS, bindings);
+};
+
+module.exports.fetchAllByBankAccountId = ({ person , bankAccountId }) => {
+  const bindings = {person, bankAccountId };
+  console.log("fetchAllByBankAccountId(). bindings=", bindings);
+  const SQL_SELECT_TRANSACTIONS = `SELECT 
+                                    TXN_ID AS "txnId",
+                                    DEBIT_ACCOUNT_ID AS "debitAccount",
+                                    CREDIT_ACCOUNT_ID AS "creditAccount",
+                                    ACCOUNT_NUMBER AS "accountNumber", 
+                                    DESCRIPTION AS "description", 
+                                    AMOUNT AS "amount",
+                                    DEBIT_CURRENCY AS "debitCurrency",
+                                    CREDIT_CURRENCY AS "creditCurrency"  
+                                FROM TRANSACTIONS WHERE PERSON = :person AND (DEBIT_ACCOUNT_ID = :bankAccountId OR CREDIT_ACCOUNT_ID = :bankAccountId)
+                                ORDER BY TXN_ID ASC `;
 
   console.log(SQL_SELECT_TRANSACTIONS, bindings);
   return pool(SQL_SELECT_TRANSACTIONS, bindings);

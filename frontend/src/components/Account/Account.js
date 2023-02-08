@@ -1,5 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { useState, useEffect, useRef } from 'react';
+import { currencies } from '../util/stripe-currencies';
 import {
   Container,
   Row,
@@ -9,9 +10,12 @@ import {
   Button,
   Spinner,
   ListGroup,
+  Table,
 } from 'react-bootstrap';
 
 const Account = () => {
+    console.log(currencies) 
+
     const [cookies] = useCookies(['auth_token']);
     const accNameRef = useRef();
     const bankName = useRef();
@@ -99,73 +103,61 @@ const Account = () => {
 
     const userAccountsList = userAccounts.map((account) => {
         return (
-            <ListGroup.Item key={account.account_id} action>
-                <Card>
-                    <Card.Body>
-                        <Card.Title>{account.name}</Card.Title>
-                        <Card.Text>{account.bank_name}</Card.Text>
-                        <Card.Text>{account.account_id}</Card.Text>
-                        <Card.Text>{account.account_balance}</Card.Text>
-                        <Card.Text>{account.currency_id}</Card.Text>
-                    </Card.Body>
-                </Card>
-            </ListGroup.Item>
+            <tr>
+                <td>{account.account_id}</td>
+                <td>{account.bank_name}</td>
+                <td>{account.account_id}</td>
+                <td>{account.account_balance}</td>
+                <td>{account.currency_id}</td>
+            </tr>
+
         ); 
     }); 
 
     return (
         <Container fluid className="mt-5">
             <Row className="align-items-center justify-content-center">
-                <Col
-                md={5}
-                className="d-flex align-items-center justify-content-center"
-                >
+                <Col md={5} className="d-flex align-items-center justify-content-center">
                 <Card style={{ width: '25rem' }}>
                     <Card.Body>
                     <Form onSubmit={onSubmitHandler}>
                         <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control placeholder="..." ref={accNameRef} />
+                        <Form.Group as={Row} controlId="formGridEmail">
+                            <Col><Form.Label>Name</Form.Label></Col>
+                            <Col><Form.Control placeholder="..." ref={accNameRef} /></Col>
                         </Form.Group>
                         </Row>
                         <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Bank name</Form.Label>
-                            <Form.Control
-                            placeholder="..."
-                            as="textarea"
-                            rows={3}
-                            ref={bankName}
-                            />
+                        <Form.Group as={Row} controlId="formGridEmail">
+                            <Col><Form.Label>Bank name</Form.Label></Col>
+                            <Col><Form.Control placeholder="..." ref={bankName}/></Col>
                         </Form.Group>
                         </Row>
                         <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Account number</Form.Label>
-                            <Form.Control placeholder="..." ref={accID} />
+                        <Form.Group as={Row} controlId="formGridEmail">
+                            <Col><Form.Label>Account number</Form.Label></Col>
+                            <Col><Form.Control placeholder="..." ref={accID} /></Col>
                         </Form.Group>
                         </Row>
                         <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Account balance</Form.Label>
-                            <Form.Control placeholder="..." ref={accBalance} />
+                        <Form.Group as={Row} controlId="formGridEmail">
+                            <Col><Form.Label>Account balance</Form.Label></Col>
+                            <Col><Form.Control placeholder="..." ref={accBalance} /></Col>
                         </Form.Group>
                         </Row>
                         <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Currency ID</Form.Label>
-                            <Form.Control placeholder="..." ref={currency_id_ref} />
+                        <Form.Group as={Row} controlId="formGridEmail">
+                            <Col><Form.Label>Currency ID</Form.Label></Col>
+                            <Col><Form.Select ref={currency_id_ref}>
+                                    <option value="Select">Select...</option>
+                                    {currencies.map((currency) => <option value={currency.code}>{currency.code}</option>)}
+                                </Form.Select >
+                            </Col>
                         </Form.Group>
                         </Row>
                         <Row className="mb-3 justify-content-end">
                         <Col className="d-flex justify-content-end">
-                            <Button
-                            disabled={disableSubmit}
-                            variant="outline-success"
-                            type="submit"
-                            style={{ width: '100%' }}
-                            >
+                            <Button disabled={disableSubmit} variant="outline-success" type="submit" style={{ width: '100%' }}>
                             {disableSubmit && (
                                 <Spinner
                                 as="span"
@@ -183,8 +175,22 @@ const Account = () => {
                     </Card.Body>
                 </Card>
                 </Col>
-                <Col md={3} className="d-flex align-items-start justify-content-center">
-                <ListGroup>{userAccountsList}</ListGroup>
+                <Col md={5}>
+                    <h2>My Accounts</h2>
+                    <Table striped bordered hover size="sm" responsive>
+                        <thead>
+                        <tr>                            
+                            <th>Account Id</th>
+                            <th>Bank Name</th>
+                            <th>Account Id</th>
+                            <th>Account Balance</th>
+                            <th>Currency Id</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {userAccountsList}
+                        </tbody>
+                    </Table>
                 </Col>
             </Row>
         </Container>

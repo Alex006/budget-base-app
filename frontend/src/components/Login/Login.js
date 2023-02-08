@@ -45,17 +45,13 @@ const Login = () => {
               <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" ref={emailRef} required />
+                  <Form.Control type="email" ref={emailRef} required  value="test@telus.com"/>
                 </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" ref={passwordRef} required />
+                  <Form.Control type="password" ref={passwordRef} required value="admin"/>
                 </Form.Group>
-                <Button
-                  disabled={disabledSubmit}
-                  className="w-100 mt-3"
-                  type="submit"
-                >
+                <Button disabled={disabledSubmit} className="w-100 mt-3" type="submit">
                   Log In
                 </Button>
               </Form>

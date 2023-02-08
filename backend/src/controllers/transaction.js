@@ -41,3 +41,18 @@ module.exports.getTransactions = async (req, res, next) => {
     res.status(400).json({ messsage: error });
   }
 };
+
+module.exports.getTransactionsByAccountId = async (req, res, next) => {
+  const args = { person: req.person.person, bankAccountId: Number(req.params.id) };
+  try {
+    console.log("BACKEND>>>> getTransactionsByAccountId()", args)
+    const { rows } = await Transaction.fetchAllByBankAccountId(args);
+    console.log("BACKEND>>>> rows=", rows)
+    res.status(200).json({ data: rows });
+  } catch (error) {
+    console.error("BACKEND>>>> error getTransactionsByAccountId =", error)
+    res.status(400).json({ messsage: error });
+  }
+};
+
+
