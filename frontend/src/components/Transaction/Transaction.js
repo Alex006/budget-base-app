@@ -85,9 +85,14 @@ const Transaction = () => {
       console.log("ITS TRANSFER");
 
       let userAcctArray = userAccounts.filter(item => item.account_id === parseInt(debitAccountRef.current.value));
-      debitCurrencyRef.current.value = userAcctArray[0].currency_id;
+      if(userAcctArray.length>0){
+        debitCurrencyRef.current.value = userAcctArray[0].currency_id;
+      }
+      
       userAcctArray = userAccounts.filter(item => item.account_id === parseInt(creditAccountRef.current.value));
-      creditCurrencyRef.current.value = userAcctArray[0].currency_id;
+      if(userAcctArray.length>0){
+        creditCurrencyRef.current.value = userAcctArray[0].currency_id;
+      }
 
       setDebitReadOnly(false);
       setCreditReadOnly(false);
@@ -190,9 +195,11 @@ const Transaction = () => {
     const description = descriptionRef.current.value;
     const accountNumber = (txnType=== "Income" || txnType=== "Transfer"   ? debitAccount : creditAccount);
     let amount = amountRef.current.value;
+    amount = (txnType=== "Expense"? amount *-1: amount);
     const debitCurrency = debitCurrencyRef.current.value;
     const creditCurrency = creditCurrencyRef.current.value;
-    
+    const emptyValue = "";
+
     if (txnType === 'Select' || (debitAccount === 'Select' && creditAccount === 'Select') || amount === ''){
       console.log("VALIDATION FAILED");
        return; 
@@ -203,12 +210,12 @@ const Transaction = () => {
       if(txnType === 'Transfer'){
         //account that is tranfering
         amount = amount *-1;
-        await createTransaction({ debitAccount, creditAccount, description, accountNumber, amount, debitCurrency, creditCurrency });
+        await createTransaction({ debitAccount, emptyValue, description, accountNumber, amount, debitCurrency, emptyValue });
         
         //account that will recive the transfer
         amount = amount *-1;
         amount = await Convert(amount).from(debitCurrency).to(creditCurrency);
-        await createTransaction({ debitAccount, creditAccount, description, accountNumber, amount, debitCurrency, creditCurrency });
+        await createTransaction({ emptyValue, creditAccount, description, accountNumber, amount, emptyValue, creditCurrency });
         
       }else{
         await createTransaction({ debitAccount, creditAccount, description, accountNumber, amount, debitCurrency, creditCurrency });
@@ -325,7 +332,7 @@ const Transaction = () => {
                 <Row className="mb-3">
                   <Form.Group as={Row} controlId="formGridEmail">
                     <Col>
-                      <Form.Label>Description</Form.Label>
+                      <Form.Label>Ref. Description</Form.Label>
                     </Col>
                     <Col>
                       <Form.Control placeholder="" ref={descriptionRef} />
